@@ -1,4 +1,4 @@
-module gwendolyngoetz/i3-aide
+module gwendolyngoetz/i3-companion
 
 go 1.19
 
