@@ -39,8 +39,8 @@ func GetWorkspaces() ([]i3.Workspace, i3.Workspace) {
 func SwapWorkspace(workspace1 i3.Workspace, workspace2 i3.Workspace) {
 	num := workspace1.Num
 	screen := workspace2.Name
-	command1 := fmt.Sprintf("[workspace=%s] move workspace to output %s", num, screen)
-	command2 := "workspace {num}:{num}"
+	command1 := fmt.Sprintf("[workspace=%d] move workspace to output %s", num, screen)
+	command2 := fmt.Sprintf("workspace %d:%d", num, num)
 	fmt.Println(command1)
 	fmt.Println(command2)
 	// i3.RunCommand(command1)
