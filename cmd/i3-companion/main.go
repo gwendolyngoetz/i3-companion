@@ -22,37 +22,44 @@ var subcommands = map[string]*flag.FlagSet{
 
 func setupCommonFlags() {
 	for _, fs := range subcommands {
-		fs.StringVar(
-			&required,
-			"required",
-			"",
-			"required for all commands",
-		)
+		fs.StringVar(&required, "required", "", "required for all commands")
 	}
+}
+
+func buildSwapConfig() *workspaceswap.SwapConfig {
+	config := workspaceswap.SwapConfig{}
+
+	swapCmd.StringVar(&config.Output1, "output1", "", "Output (DisplayPort-?, HDMI-?)")
+	swapCmd.StringVar(&config.Output2, "output2", "", "Output (DisplayPort-?, HDMI-?)")
+	swapCmd.BoolVar(&config.Debug, "debug", false, "debug")
+	swapCmd.Parse(os.Args[2:])
+
+	return &config
+}
+
+func buildLoadConfig() *workspaceloader.LoadConfig {
+	config := workspaceloader.LoadConfig{}
+
+	swapCmd.BoolVar(&config.Debug, "debug", false, "debug")
+	swapCmd.Parse(os.Args[2:])
+
+	return &config
 }
 
 func main() {
 	setupCommonFlags()
-	a := swapCmd.String("a", "default", "a")
-	b := swapCmd.String("b", "default", "b")
-	debug := swapCmd.Bool("debug", false, "debug")
-	flag.Parse()
-	// swapCmd.Parse()
 
 	switch os.Args[1] {
 	case "swap":
-		// swapCmd.Parse(os.Args[2:])
-		workspaceswap.Swap()
+		workspaceswap.Swap(buildSwapConfig())
+		// swapCmd.PrintDefaults()
 	case "load":
-		loadCmd.Parse(os.Args[2:])
-		workspaceloader.LoadWorkspace()
+		workspaceloader.LoadWorkspace(buildLoadConfig())
+		// loadCmd.PrintDefaults()
 	default:
 		log.Fatalf("Unknown command: %s", os.Args[1])
 	}
 
 	fmt.Println("")
-	fmt.Println(flag.Args())
-	fmt.Println(*a, *b, *debug)
-	// fmt.Println(os.Args[2:])
 	fmt.Println("done")
 }

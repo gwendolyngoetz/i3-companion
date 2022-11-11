@@ -6,8 +6,12 @@ import (
 	"go.i3wm.org/i3/v4"
 )
 
-func LoadWorkspace() {
-	fmt.Println("load-workspace")
+type LoadConfig struct {
+	Debug bool
+}
+
+func LoadWorkspace(config *LoadConfig) {
+	fmt.Println("load-workspace", config.Debug)
 }
 
 func init1(debug bool) {

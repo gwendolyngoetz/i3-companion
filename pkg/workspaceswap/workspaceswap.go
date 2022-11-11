@@ -7,68 +7,88 @@ import (
 	"go.i3wm.org/i3/v4"
 )
 
-func Swap() {
-	fmt.Println("swap-workspace")
-	// workspaces, focusedWorkspace := getWorkspaces()
-
-	//for i, s := range workspaces {
-	//	fmt.Println(i, s.Num, s.Name, s.Output)
-	//}
-
-	// fmt.Println("F", focusedWorkspace.Num, focusedWorkspace.Name, focusedWorkspace.Output)
-	// fmt.Println("")
-
-	// swapWorkspace(workspaces[0], workspaces[1])
-	// swapWorkspace(workspaces[1], workspaces[0])
-	// focusWorkspace(focusedWorkspace)
+type SwapConfig struct {
+	Output1 string
+	Output2 string
+	Debug   bool
 }
 
-func getWorkspaces() ([]i3.Workspace, i3.Workspace) {
+var (
+	config     *SwapConfig
+	focusedKey = "Focused"
+)
+
+func Swap(swapConfig *SwapConfig) {
+	config = swapConfig
+	workspaces := getWorkspaces()
+
+	workspace1 := workspaces[config.Output1]
+	workspace2 := workspaces[config.Output2]
+	workspaceFocused := workspaces[focusedKey]
+
+	// TODO: Handle output range workspaces
+
+	if config.Debug {
+		log.Println("WS1", workspace1.Num, workspace1.Name, workspace1.Output)
+		log.Println("WS2", workspace2.Num, workspace2.Name, workspace2.Output)
+		log.Println("WSF", workspaceFocused.Num, workspaceFocused.Name, workspaceFocused.Output)
+	}
+
+	swapWorkspace(workspace1, workspace2)
+	swapWorkspace(workspace2, workspace1)
+	setFocusedWorkspace(workspaceFocused)
+}
+
+func getWorkspaces() map[string]i3.Workspace {
 	allWorkspaces, err := i3.GetWorkspaces()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	filteredWorkspaces := []i3.Workspace{}
-	var focusedWorkspace i3.Workspace
+	filteredWorkspaces := map[string]i3.Workspace{}
 
 	for _, s := range allWorkspaces {
 		if s.Focused {
-			focusedWorkspace = s
+			filteredWorkspaces[focusedKey] = s
 		}
 
 		if s.Visible {
-			filteredWorkspaces = append(filteredWorkspaces, s)
+			filteredWorkspaces[s.Output] = s
 		}
 	}
 
-	return filteredWorkspaces, focusedWorkspace
+	return filteredWorkspaces
 }
 
 func swapWorkspace(workspace1 i3.Workspace, workspace2 i3.Workspace) {
 	command1 := fmt.Sprintf("[workspace=%d] move workspace to output %s", workspace1.Num, workspace2.Output)
 	command2 := fmt.Sprintf("workspace %s", workspace1.Name)
 
-	fmt.Println(command1)
-	fmt.Println(command2)
+	if config.Debug {
+		log.Println(command1)
+		log.Println(command2)
+	}
 
-	//_, err := i3.RunCommand(command1)
-	//if err != nil {
-	//	fmt.Println(err)
-	//}
+	_, err := i3.RunCommand(command1)
+	if err != nil {
+		log.Println(err)
+	}
 
-	//_, err = i3.RunCommand(command2)
-	//if err != nil {
-	//	fmt.Println(err)
-	//}
+	_, err = i3.RunCommand(command2)
+	if err != nil {
+		log.Println(err)
+	}
 }
 
-func focusWorkspace(workspace i3.Workspace) {
+func setFocusedWorkspace(workspace i3.Workspace) {
 	command := fmt.Sprintf("workspace %s", workspace.Name)
-	fmt.Println(command)
 
-	//_, err := i3.RunCommand(command)
-	//if err != nil {
-	//	fmt.Println(err)
-	//}
+	if config.Debug {
+		log.Println(command)
+	}
+
+	_, err := i3.RunCommand(command)
+	if err != nil {
+		log.Println(err)
+	}
 }
