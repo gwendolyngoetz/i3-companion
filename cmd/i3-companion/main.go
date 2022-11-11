@@ -1,61 +1,58 @@
 package main
 
 import (
+	"flag"
 	"fmt"
+	"gwendolyngoetz/i3-companion/pkg/workspaceloader"
+	"gwendolyngoetz/i3-companion/pkg/workspaceswap"
 	"log"
-
-	"go.i3wm.org/i3/v4"
+	"os"
 )
 
-type LocalWorkspace struct {
-	Num     int64
-	Name    string
-	Output  string
-	Focused bool
+var (
+	required string
+	swapCmd  = flag.NewFlagSet("swap", flag.ExitOnError)
+	loadCmd  = flag.NewFlagSet("load", flag.ExitOnError)
+)
+
+var subcommands = map[string]*flag.FlagSet{
+	swapCmd.Name(): swapCmd,
+	loadCmd.Name(): loadCmd,
 }
 
-func GetWorkspaces() ([]i3.Workspace, i3.Workspace) {
-	allWorkspaces, err := i3.GetWorkspaces()
-	if err != nil {
-		log.Fatal(err)
+func setupCommonFlags() {
+	for _, fs := range subcommands {
+		fs.StringVar(
+			&required,
+			"required",
+			"",
+			"required for all commands",
+		)
 	}
-
-	filteredWorkspaces := []i3.Workspace{}
-	var focusedWorkspace i3.Workspace
-
-	for _, s := range allWorkspaces {
-		if s.Focused {
-			focusedWorkspace = s
-		}
-
-		if s.Visible {
-			filteredWorkspaces = append(filteredWorkspaces, s)
-		}
-	}
-
-	return filteredWorkspaces, focusedWorkspace
-}
-
-func SwapWorkspace(workspace1 i3.Workspace, workspace2 i3.Workspace) {
-	num := workspace1.Num
-	screen := workspace2.Name
-	command1 := fmt.Sprintf("[workspace=%d] move workspace to output %s", num, screen)
-	command2 := fmt.Sprintf("workspace %d:%d", num, num)
-	fmt.Println(command1)
-	fmt.Println(command2)
-	// i3.RunCommand(command1)
 }
 
 func main() {
-	workspaces, focusedWorkspace := GetWorkspaces()
+	setupCommonFlags()
+	a := swapCmd.String("a", "default", "a")
+	b := swapCmd.String("b", "default", "b")
+	debug := swapCmd.Bool("debug", false, "debug")
+	flag.Parse()
+	// swapCmd.Parse()
 
-	for i, s := range workspaces {
-		fmt.Println(i, s.Num, s.Name, s.Output)
+	switch os.Args[1] {
+	case "swap":
+		// swapCmd.Parse(os.Args[2:])
+		workspaceswap.Swap()
+	case "load":
+		loadCmd.Parse(os.Args[2:])
+		workspaceloader.LoadWorkspace()
+	default:
+		log.Fatalf("Unknown command: %s", os.Args[1])
 	}
 
-	SwapWorkspace(workspaces[0], workspaces[1])
-
-	fmt.Println("F", focusedWorkspace.Num, focusedWorkspace.Name, focusedWorkspace.Output)
 	fmt.Println("")
+	fmt.Println(flag.Args())
+	fmt.Println(*a, *b, *debug)
+	// fmt.Println(os.Args[2:])
 	fmt.Println("done")
 }
