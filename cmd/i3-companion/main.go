@@ -40,8 +40,10 @@ func buildSwapConfig() *workspaceswap.SwapConfig {
 func buildLoadConfig() *workspaceloader.LoadConfig {
 	config := workspaceloader.LoadConfig{}
 
-	swapCmd.BoolVar(&config.Debug, "debug", false, "debug")
-	swapCmd.Parse(os.Args[2:])
+	loadCmd.Int64Var(&config.Workspace, "workspace", -1, "Workspace to load")
+	loadCmd.StringVar(&config.Output, "to-output", "", "Output to place loaded workspace")
+	loadCmd.BoolVar(&config.Debug, "debug", false, "debug")
+	loadCmd.Parse(os.Args[2:])
 
 	return &config
 }
