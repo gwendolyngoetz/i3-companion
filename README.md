@@ -2,36 +2,41 @@
 
 # README
 
-## General
-
-i3-companion COMMAND [OPTIONS]
-
 ## Version
-
-i3-companion --version
+### Example
+`i3-companion --version`
 
 ## Swap Workspaces
 
-i3-companion swap --output1=OUTPUT --output2=OUTPUT
+### Example
+`i3-companion swap --output1=DisplayPort-0 --output2=DisplayPort-1`
 
+### Usage
+```
 Usage of swap:
--debug
-debug
--output1 string
-Output (DisplayPort-?, HDMI-?)
--output2 string
-Output (DisplayPort-?, HDMI-?)
+  -debug
+      debug
+  -output1 string
+      Output (DisplayPort-?, HDMI-?)
+  -output2 string
+      Output (DisplayPort-?, HDMI-?)
+```
 
 ## Load Workspace
 
-i3-companion load --workspace=WORKSPACE --output-to=OUTPUT
+### Example
 
+`i3-companion load --workspace=1 --output-to=DisplayPort-0`
+
+### Usage
+```
 Usage of load:
--debug
-debug
--output-to string
-Output to place loaded workspace
--required string
-required for all commands
--workspace int
-Workspace to load (default -1)
+  -debug
+      debug
+  -output-to string
+      Output to place loaded workspace
+  -required string
+      required for all commands
+  -workspace int
+      Workspace to load (default -1)
+```
