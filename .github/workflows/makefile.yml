@@ -15,7 +15,7 @@ on:
   #  paths-ignore:
   #    - '**.md'
 env:
-  ver_num: '1.0.${{ github.run_number }}'
+  ver_num: '${{ github.event.inputs.version }}'
 
 jobs:
   build-linux:
