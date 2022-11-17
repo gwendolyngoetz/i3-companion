@@ -41,7 +41,7 @@ func buildLoadConfig() *workspaceloader.LoadConfig {
 	config := workspaceloader.LoadConfig{}
 
 	loadCmd.Int64Var(&config.Workspace, "workspace", -1, "Workspace to load")
-	loadCmd.StringVar(&config.Output, "to-output", "", "Output to place loaded workspace")
+	loadCmd.StringVar(&config.Output, "output-to", "", "Output to place loaded workspace")
 	loadCmd.BoolVar(&config.Debug, "debug", false, "debug")
 	loadCmd.Parse(os.Args[2:])
 
