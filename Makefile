@@ -31,10 +31,10 @@ Description: Companion helpers for i3wm
 endef
 
 package-deb:
-	@mkdir -p ./package/i3-companion_$(VERSION)/tmp/usr/local/bin
+	@mkdir -p ./package/i3-companion_$(VERSION)/usr/local/bin
 	@mkdir -p ./package/i3-companion_$(VERSION)/DEBIAN
 
-	@cp ./build/i3-companion ./package/i3-companion_$(VERSION)/tmp/usr/local/bin
+	@cp ./build/i3-companion ./package/i3-companion_$(VERSION)/usr/local/bin
 	@touch ./package/i3-companion_$(VERSION)/DEBIAN/control
 	
 	@echo '$(subst $(newline),\n,${CONTROL_FILE_BODY})' > ./package/i3-companion_$(VERSION)/DEBIAN/control
