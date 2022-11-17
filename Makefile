@@ -25,7 +25,7 @@ Package: i3-companion
 Version: $(VERSION)
 Section: base
 Priority: optional
-Architecture: x64
+Architecture: x86_64
 Maintainer: Gwendolyn Goetz
 Description: Companion helpers for i3wm
 endef
