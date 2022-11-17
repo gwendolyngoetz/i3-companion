@@ -1,7 +1,11 @@
 name: Build and Release
 
 on:
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release number e.g. 1.2.3'
+        required: true
   #push:
   #  branches: [master]
   #  paths-ignore:
