@@ -9,11 +9,17 @@ import (
 	"os"
 )
 
+type Config struct {
+	ShowVersion bool
+}
+
 var (
 	required string
 	swapCmd  = flag.NewFlagSet("swap", flag.ExitOnError)
 	loadCmd  = flag.NewFlagSet("load", flag.ExitOnError)
 )
+
+var Version = "development"
 
 var subcommands = map[string]*flag.FlagSet{
 	swapCmd.Name(): swapCmd,
@@ -48,20 +54,27 @@ func buildLoadConfig() *workspaceloader.LoadConfig {
 	return &config
 }
 
+func buildVersionConfig() *Config {
+	config := Config{}
+
+	flag.BoolVar(&config.ShowVersion, "version", false, "version")
+	flag.Parse()
+
+	return &config
+}
+
 func main() {
 	setupCommonFlags()
 
 	switch os.Args[1] {
 	case "swap":
 		workspaceswap.Swap(buildSwapConfig())
-		// swapCmd.PrintDefaults()
 	case "load":
 		workspaceloader.LoadWorkspace(buildLoadConfig())
-		// loadCmd.PrintDefaults()
+	case "--version":
+		buildVersionConfig()
+		fmt.Println(Version)
 	default:
 		log.Fatalf("Unknown command: %s", os.Args[1])
 	}
-
-	fmt.Println("")
-	fmt.Println("done")
 }
