@@ -59,8 +59,8 @@ func getWorkspaceNode(workspace int64) ([]string, error) {
 
 func buildCommand(output string, workspace int64, workspace_node []string) []string {
 	cmds := []string{
-		fmt.Sprintf("workspace \"%d:%d\" output \"%s\";", workspace, workspace, output),
-		fmt.Sprintf("append_layout ~/.config/i3/workspaces/workspace-%d.json;", workspace),
+		fmt.Sprintf("workspace \"%d:%d\"; append_layout ~/.config/i3/workspaces/workspace-%d.json;", workspace, workspace, workspace),
+		fmt.Sprintf("[workspace=%d] move workspace to output %s", workspace, output),
 	}
 
 	for _, application := range workspace_node {
