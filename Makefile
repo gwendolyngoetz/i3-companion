@@ -31,6 +31,7 @@ Description: Companion helpers for i3wm
 endef
 
 package-deb:
+	@rm -rf ./package
 	@mkdir -p ./package/i3-companion_$(VERSION)/usr/local/bin
 	@mkdir -p ./package/i3-companion_$(VERSION)/DEBIAN
 
