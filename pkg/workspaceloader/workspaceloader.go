@@ -58,19 +58,18 @@ func getWorkspaceNode(workspace int64) ([]string, error) {
 }
 
 func buildCommand(output string, workspace int64, workspace_node []string) []string {
-	cmds := []string{
-		fmt.Sprintf("workspace \"%d:%d\"; append_layout ~/.config/i3/workspaces/workspace-%d.json;", workspace, workspace, workspace),
-		fmt.Sprintf("[workspace=%d] move workspace to output %s", workspace, output),
+	return []string{
+		buildApplicationCmd(workspace, workspace_node),
+		fmt.Sprintf("[workspace=%d] move workspace to output %s;", config.Workspace, config.Output),
 	}
-
-	for _, application := range workspace_node {
-		cmds = append(cmds, buildApplicationCmd(application))
-	}
-
-	return cmds
 }
 
-func buildApplicationCmd(application string) string {
-	cmd := workspace_applications[application]
-	return fmt.Sprintf("exec --no-startup-id %s; ", cmd)
+func buildApplicationCmd(workspace int64, workspace_node []string) string {
+	appendCmd := fmt.Sprintf("workspace \"%d:%d\"; append_layout ~/.config/i3/workspaces/workspace-%d.json; ", workspace, workspace, workspace)
+
+	for _, application := range workspace_node {
+		appendCmd = appendCmd + fmt.Sprintf("exec --no-startup-id %s; ", workspace_applications[application])
+	}
+
+	return appendCmd
 }
