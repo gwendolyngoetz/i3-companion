@@ -14,11 +14,11 @@
 ### Usage
 ```
 Usage of swap:
-  -debug
+  --debug
       debug
-  -output1 string
+  --output1 string
       Output (DisplayPort-?, HDMI-?)
-  -output2 string
+  --output2 string
       Output (DisplayPort-?, HDMI-?)
 ```
 
@@ -31,12 +31,10 @@ Usage of swap:
 ### Usage
 ```
 Usage of load:
-  -debug
+  --debug
       debug
-  -output-to string
+  --output-to string
       Output to place loaded workspace
-  -required string
-      required for all commands
-  -workspace int
+  --workspace int
       Workspace to load (default -1)
 ```
