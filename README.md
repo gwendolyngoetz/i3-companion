@@ -15,7 +15,7 @@
 ```
 Usage of swap:
   --debug
-      debug
+      Prints extra debug info
   --output1 string
       Output (DisplayPort-?, HDMI-?)
   --output2 string
@@ -32,7 +32,7 @@ Usage of swap:
 ```
 Usage of load:
   --debug
-      debug
+      Prints extra debug info
   --output-to string
       Output to place loaded workspace
   --workspace int
