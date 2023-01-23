@@ -34,7 +34,7 @@ Usage of load:
   --debug
       Prints extra debug info
   --output-to string
-      Output to place loaded workspace
+      Output to place loaded workspace (DisplayPort-?, HDMI-?)
   --workspace int
       Workspace to load (default -1)
 ```
