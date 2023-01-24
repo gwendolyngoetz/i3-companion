@@ -29,7 +29,7 @@ var workspace_applications = map[string]string{
 	"firefox":    "firefox",
 	"virtualbox": "vboxmanage startvm \"Windows10\"",
 	"slack":      "slack",
-	"teams":      "teams",
+	"teams":      "/usr/lib/chromium-browser/chromium-browser --disable-features=TFLiteLanguageDetectionEnabled --enable-pinch --profile-directory=Default --app-id=cifhbcnohmdccbgoicgdjpfamggdegmo",
 }
 
 func LoadWorkspace(loadConfig *LoadConfig) {
