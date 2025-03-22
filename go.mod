@@ -1,8 +1,10 @@
 module gwendolyngoetz/i3-companion
 
-go 1.19
+go 1.23.0
 
-require go.i3wm.org/i3/v4 v4.21.0
+toolchain go1.24.1
+
+require go.i3wm.org/i3/v4 v4.24.0
 
 require (
 	github.com/BurntSushi/xgb v0.0.0-20210121224620-deaf085860bc // indirect
