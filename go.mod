@@ -2,7 +2,7 @@ module gwendolyngoetz/i3-companion
 
 go 1.23.0
 
-toolchain go1.25.5
+toolchain go1.25.6
 
 require go.i3wm.org/i3/v4 v4.24.0
 
