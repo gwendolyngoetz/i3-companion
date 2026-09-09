@@ -3,10 +3,11 @@ package main
 import (
 	"flag"
 	"fmt"
-	"gwendolyngoetz/i3-companion/pkg/workspaceloader"
-	"gwendolyngoetz/i3-companion/pkg/workspaceswap"
 	"log"
 	"os"
+
+	"gwendolyngoetz/i3-companion/pkg/workspaceloader"
+	"gwendolyngoetz/i3-companion/pkg/workspaceswap"
 )
 
 type Config struct {
@@ -75,6 +76,6 @@ func main() {
 		buildVersionConfig()
 		fmt.Println(Version)
 	default:
-		log.Fatalf("Unknown command: %s", os.Args[1])
+		log.Fatalf("Unknown command named: %s", os.Args[1])
 	}
 }
