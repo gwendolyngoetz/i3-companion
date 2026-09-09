@@ -76,6 +76,6 @@ func main() {
 		buildVersionConfig()
 		fmt.Println(Version)
 	default:
-		log.Fatalf("Unknown command named: %s", os.Args[1])
+		log.Fatalf("Unknown command named: %s", os.Args[2])
 	}
 }
